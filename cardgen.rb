@@ -39,8 +39,8 @@ decks.each do |deck|
         if ENV["OUTPUT"] == "printer" then
           save_pdf trim: 37.5, file: deck["name"] + '.pdf', crop_marks: true
         else
-          rows = (numCards / 10) + 1
-          save_sheet prefix: deck["name"], count_format: '', columns: 10, rows: rows, dir: './_output'
+          rows = if numCards % 10 == 0 then numCards / 10 else  numCards / 10 + 1 end
+          save_sheet prefix: deck["name"], count_format: '', columns: 10, rows: rows, dir: './_output', trim: 36
         end
         if ENV["OUTPUT"] == "upload" then
           upload_image('./_output/' + deck["name"] + '.png', deck["uploadTarget"], 'image/png')
